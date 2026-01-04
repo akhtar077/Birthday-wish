@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>Birthday Surprise</title>
     <style>
         :root {
-            --bg: #ffe4e1; 
+            --bg: #ffe4e1; /* Light Pink Background */
             --frosting: #FF4D6D;
             --cake: #FFFFFF;
             --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -20,7 +20,7 @@
             justify-content: center; 
             min-height: 100vh;
             margin: 0;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: 'Arial', sans-serif;
             overflow: hidden;
             position: relative;
         }
@@ -32,6 +32,7 @@
             border-radius: 50%;
             opacity: 0.5;
             animation: twinkle var(--duration) infinite ease-in-out;
+            z-index: 0;
         }
         @keyframes twinkle {
             0%, 100% { opacity: 0.3; transform: scale(1); }
@@ -46,15 +47,15 @@
             height: 50px;
             border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
             z-index: 1;
-            animation: floatUp 10s infinite linear;
+            animation: floatUp var(--speed) infinite linear;
         }
         .balloon::after {
-            content: ""; position: absolute; bottom: -10px; left: 19px;
+            content: ""; position: absolute; bottom: -12px; left: 19px;
             width: 2px; height: 15px; background: rgba(0,0,0,0.1);
         }
         @keyframes floatUp {
             from { transform: translateY(0) rotate(0deg); }
-            to { transform: translateY(-120vh) rotate(20deg); }
+            to { transform: translateY(-125vh) rotate(20deg); }
         }
 
         /* --- RGB ANIMATED TEXT --- */
@@ -74,7 +75,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- THE BUTTON & CAKE --- */
+        /* --- THE BUTTON & CAKE (EXACT VIDEO MOVEMENT) --- */
         .birthday-button {
             position: relative;
             width: 280px; height: 90px;
@@ -85,23 +86,33 @@
         }
         .letter { display: inline-block; transition: transform 0.8s var(--spring), opacity 0.4s; }
         .active .letter { opacity: 0; }
-        .active .letter:nth-child(1) { transform: translate(-100px, -150px) rotate(-45deg); }
-        .active .letter:nth-child(3) { transform: translate(0px, -180px) rotate(-10deg); }
-        .active .letter:nth-child(5) { transform: translate(100px, -150px) rotate(45deg); }
+        .active .letter:nth-child(odd) { transform: translate(-120px, -180px) rotate(-45deg); }
+        .active .letter:nth-child(even) { transform: translate(120px, -180px) rotate(45deg); }
 
         .cake-wrapper {
             position: absolute; bottom: 0; transform: scale(0); opacity: 0;
             transition: all 0.8s var(--spring); pointer-events: none;
         }
         .active .cake-wrapper { transform: scale(1) translateY(-85px); opacity: 1; }
+        
         .cake-body { width: 160px; height: 85px; background: var(--cake); border-radius: 15px; position: relative; overflow: hidden; box-shadow: inset 0 -5px 0 #eee; }
         .frosting { width: 100%; height: 30px; background: var(--frosting); position: absolute; top: 0; z-index: 2; }
-        .face-container { position: absolute; width: 100%; top: 45px; transform: translateX(-100%); transition: transform 0.6s ease-out 0.4s; display: flex; justify-content: center; gap: 25px; }
+        
+        .face-container { 
+            position: absolute; width: 100%; top: 45px; transform: translateX(-100%); 
+            transition: transform 0.6s ease-out 0.4s; display: flex; justify-content: center; gap: 25px; 
+        }
         .active .face-container { transform: translateX(0); }
-        .eye { width: 8px; height: 8px; background: #333; border-radius: 50%; }
+        .eye { width: 8px; height: 8px; background: #333; border-radius: 50%; animation: blink 3s infinite; }
+        @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
         .mouth { width: 14px; height: 7px; border: 2px solid #333; border-top: 0; border-radius: 0 0 10px 10px; position: absolute; top: 12px; }
 
-        /* --- SLIDESHOW --- */
+        .candles { position: absolute; top: -30px; width: 100%; display: flex; justify-content: space-evenly; }
+        .candle { width: 8px; height: 35px; background: #FFD166; border-radius: 4px; }
+        .flame { width: 10px; height: 16px; background: #FF8C00; border-radius: 50% 50% 20% 20%; position: absolute; top: -18px; animation: flicker 0.1s infinite alternate; }
+        @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.2); } }
+
+        /* --- SLIDESHOW (5 CARDS) --- */
         .slideshow-container {
             width: 300px; height: 350px; position: relative; opacity: 0; transform: translateY(30px);
             transition: all 1s ease 0.8s; display: flex; justify-content: center; margin-top: 50px;
@@ -109,14 +120,24 @@
         .active ~ .slideshow-container { opacity: 1; transform: translateY(0); }
         .photo-card { position: absolute; width: 220px; height: 280px; background: white; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.6s var(--spring); cursor: pointer; border-bottom: 50px solid white; }
         .photo-card img { width: 100%; height: 210px; object-fit: cover; }
-        .photo-note { position: absolute; bottom: -45px; left: 0; width: 100%; text-align: center; font-size: 0.85rem; color: #555; padding: 0 10px; }
+        .photo-note { position: absolute; bottom: -45px; left: 0; width: 100%; text-align: center; font-size: 0.85rem; color: #555; padding: 0 10px; font-family: 'Comic Sans MS', cursive; }
         .photo-card.swiped { transform: translateX(350px) rotate(30deg) !important; opacity: 0; }
+
         .photo-card:nth-child(1) { transform: rotate(-5deg); z-index: 5; }
         .photo-card:nth-child(2) { transform: rotate(3deg); z-index: 4; }
         .photo-card:nth-child(3) { transform: rotate(-1deg); z-index: 3; }
         .photo-card:nth-child(4) { transform: rotate(2deg); z-index: 2; }
         .photo-card:nth-child(5) { transform: rotate(-3deg); z-index: 1; }
 
+        /* --- HEART ANIMATION --- */
+        .heart {
+            position: fixed; color: #FF4D6D; font-size: 24px; pointer-events: none; z-index: 200;
+            animation: heartFloat 1.5s ease-out forwards;
+        }
+        @keyframes heartFloat {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -128,6 +149,7 @@
             <span class="letter">B</span><span class="letter">i</span><span class="letter">r</span><span class="letter">t</span><span class="letter">h</span><span class="letter">d</span><span class="letter">a</span><span class="letter">y</span>
         </div>
         <div class="cake-wrapper">
+            <div class="candles"><div class="candle"><div class="flame"></div></div><div class="candle"><div class="flame"></div></div><div class="candle"><div class="flame"></div></div></div>
             <div class="cake-body">
                 <div class="frosting"></div>
                 <div class="face-container">
@@ -138,18 +160,18 @@
     </button>
 
     <div class="slideshow-container">
-        <div class="photo-card" onclick="swipe(this)"><img src="photo1.jpg"><div class="photo-note">Memory 1 ✨</div></div>
-        <div class="photo-card" onclick="swipe(this)"><img src="photo2.jpg"><div class="photo-note">Memory 2 🍰</div></div>
-        <div class="photo-card" onclick="swipe(this)"><img src="photo3.jpg"><div class="photo-note">Memory 3 😊</div></div>
-        <div class="photo-card" onclick="swipe(this)"><img src="photo4.jpg"><div class="photo-note">Memory 4 🎈</div></div>
-        <div class="photo-card" onclick="swipe(this)"><img src="photo5.jpg"><div class="photo-note">Memory 5 ❤️</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo1.jpg"><div class="photo-note">Memory 1 ✨</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo2.jpg"><div class="photo-note">Memory 2 🍰</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo3.jpg"><div class="photo-note">Memory 3 😊</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo4.jpg"><div class="photo-note">Memory 4 🎈</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo5.jpg"><div class="photo-note">Memory 5 ❤️</div></div>
     </div>
 
     <audio id="music" loop src="https://cdn.pixabay.com/audio/2022/11/22/audio_feb6391d37.mp3"></audio>
 
     <script>
-        // Create Stars
-        for (let i = 0; i < 50; i++) {
+        // Generate Stars
+        for (let i = 0; i < 40; i++) {
             let star = document.createElement('div');
             star.className = 'star';
             star.style.left = Math.random() * 100 + 'vw';
@@ -159,14 +181,15 @@
             document.body.appendChild(star);
         }
 
-        // Create Balloons
-        const colors = ['#FF4D6D', '#FFD166', '#00ff00', '#0000ff', '#ff00ff'];
-        for (let i = 0; i < 15; i++) {
+        // Generate Balloons
+        const colors = ['#FF4D6D', '#FFD166', '#70d6ff', '#ff9770', '#ffd670'];
+        for (let i = 0; i < 12; i++) {
             let b = document.createElement('div');
             b.className = 'balloon';
             b.style.left = Math.random() * 100 + 'vw';
             b.style.background = colors[Math.floor(Math.random() * colors.length)];
-            b.style.animationDelay = Math.random() * 10 + 's';
+            b.style.animationDelay = Math.random() * 8 + 's';
+            b.style.setProperty('--speed', (Math.random() * 5 + 8) + 's');
             document.body.appendChild(b);
         }
 
@@ -178,7 +201,17 @@
             btn.classList.contains('active') ? song.play() : (song.pause(), song.currentTime = 0);
         });
 
-        function swipe(card) {
+        function swipe(card, event) {
+            // Heart Effect
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = event.clientX + 'px';
+            heart.style.top = event.clientY + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1500);
+
+            // Swipe logic
             card.classList.add('swiped');
             if(document.querySelectorAll('.photo-card.swiped').length === 5) {
                 setTimeout(() => document.querySelectorAll('.photo-card').forEach(c => c.classList.remove('swiped')), 1000);
@@ -186,4 +219,4 @@
         }
     </script>
 </body>
-</html>   
+</html>                
