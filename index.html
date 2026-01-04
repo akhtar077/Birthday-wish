@@ -123,11 +123,15 @@
         .photo-note { position: absolute; bottom: -45px; left: 0; width: 100%; text-align: center; font-size: 0.85rem; color: #555; padding: 0 10px; font-family: 'Comic Sans MS', cursive; }
         .photo-card.swiped { transform: translateX(350px) rotate(30deg) !important; opacity: 0; }
 
-        .photo-card:nth-child(1) { transform: rotate(-5deg); z-index: 5; }
-        .photo-card:nth-child(2) { transform: rotate(3deg); z-index: 4; }
-        .photo-card:nth-child(3) { transform: rotate(-1deg); z-index: 3; }
-        .photo-card:nth-child(4) { transform: rotate(2deg); z-index: 2; }
-        .photo-card:nth-child(5) { transform: rotate(-3deg); z-index: 1; }
+        /* Update this section in your <style> tag */
+.photo-card:nth-child(1) { transform: rotate(-5deg); z-index: 8; }
+.photo-card:nth-child(2) { transform: rotate(3deg); z-index: 7; }
+.photo-card:nth-child(3) { transform: rotate(-1deg); z-index: 6; }
+.photo-card:nth-child(4) { transform: rotate(2deg); z-index: 5; }
+.photo-card:nth-child(5) { transform: rotate(-3deg); z-index: 4; }
+.photo-card:nth-child(6) { transform: rotate(4deg); z-index: 3; }
+.photo-card:nth-child(7) { transform: rotate(-2deg); z-index: 2; }
+.photo-card:nth-child(8) { transform: rotate(1deg); z-index: 1; }
 
         /* --- HEART ANIMATION --- */
         .heart {
@@ -164,7 +168,9 @@
         <div class="photo-card" onclick="swipe(this, event)"><img src="IMG-20260104-WA0003.jpg"><div class="photo-note">Happy birthday dearest baby 😭 ik you have officially entered your 20's now but we always gonna be those little children who always need each other ❤️ I will be here by your side whenever you need someone to laugh, gossip or to give u the shoulder to cry on..I love u so much 💋.</div></div>
         <div class="photo-card" onclick="swipe(this, event)"><img src="IMG-20260104-WA0007.jpg"><div class="photo-note">Pradii,My kabbadi partner plus bench partnerr✨💋i really love to annoy you and call you bauni which you are btw and i miss youu even tho you roast me too much😒happpy birthdayy to you chotu and iloveyou🌟💋</div></div>
         <div class="photo-card" onclick="swipe(this, event)"><img src="IMG-20260104-WA0014.jpg"><div class="photo-note">Coma💋, my chotu sa baby..my tantrum queen.Always the one who cries easily but now you are a big girl with responsibilities🥹.I always remember the fights we used to have😂you are the most amazing person I can ever have in my life.Happy Birthday🎂and uk I'M ALWAYS THERE FOR U❤️iloveu</div></div>
-        <div class="photo-card" onclick="swipe(this, event)"><img src="photo5.jpg"><div class="photo-note">Memory 5 ❤️</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo6.jpg"><div class="photo-note">Memory 6 ❤️</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo7.jpg"><div class="photo-note">Memory 7 ❤️</div></div>
+        <div class="photo-card" onclick="swipe(this, event)"><img src="photo8.jpg"><div class="photo-note">Memory 8 ❤️</div></div>
     </div>
 
     <audio id="music" loop src="Happy Birthday (Piano Version)(MP3_160K).mp3"></audio>
@@ -213,7 +219,7 @@
 
             // Swipe logic
             card.classList.add('swiped');
-            if(document.querySelectorAll('.photo-card.swiped').length === 5) {
+            if(document.querySelectorAll('.photo-card.swiped').length === 8) {
                 setTimeout(() => document.querySelectorAll('.photo-card').forEach(c => c.classList.remove('swiped')), 1000);
             }
         }
