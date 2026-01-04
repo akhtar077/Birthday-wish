@@ -6,7 +6,7 @@
     <title>Birthday Surprise</title>
     <style>
         :root {
-            --bg: #FCEECB;
+            --bg: #ffe4e1; 
             --frosting: #FF4D6D;
             --cake: #FFFFFF;
             --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -17,36 +17,58 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Changed to center to keep the button in the middle */
             justify-content: center; 
             min-height: 100vh;
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
         }
 
-        /* --- THE MAIN BUTTON (CENTERED) --- */
+        /* --- RGB ANIMATED TEXT --- */
+        .text-container {
+            display: flex;
+            font-weight: bold;
+            font-size: 1.6rem;
+            /* RGB Gradient Effect */
+            background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rgbShift 5s linear infinite;
+        }
+
+        @keyframes rgbShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- THE MAIN BUTTON --- */
         .birthday-button {
             position: relative;
-            width: 260px;
-            height: 85px;
+            width: 280px;
+            height: 90px;
             background: white;
             border-radius: 20px;
             border: none;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 100;
-            margin-bottom: 20px; /* Space between button and photos */
         }
 
-        .text-container { display: flex; font-weight: bold; font-size: 1.4rem; color: #444; }
         .letter { display: inline-block; transition: transform 0.8s var(--spring), opacity 0.4s; }
         .active .letter { opacity: 0; }
-        .active .letter:nth-child(odd) { transform: translate(-120px, -180px) rotate(-45deg); }
-        .active .letter:nth-child(even) { transform: translate(120px, -180px) rotate(45deg); }
+        /* Exploding trajectories */
+        .active .letter:nth-child(1) { transform: translate(-120px, -180px) rotate(-45deg); }
+        .active .letter:nth-child(2) { transform: translate(-50px, -200px) rotate(20deg); }
+        .active .letter:nth-child(3) { transform: translate(0px, -180px) rotate(-10deg); }
+        .active .letter:nth-child(4) { transform: translate(50px, -200px) rotate(30deg); }
+        .active .letter:nth-child(5) { transform: translate(120px, -180px) rotate(-20deg); }
+        .active .letter:nth-child(7) { transform: translate(-30px, -220px) rotate(45deg); }
+        .active .letter:nth-child(8) { transform: translate(30px, -220px) rotate(-45deg); }
 
         /* --- THE CAKE ANIMATION --- */
         .cake-wrapper {
@@ -57,7 +79,6 @@
             transition: all 0.8s var(--spring);
             pointer-events: none;
         }
-
         .active .cake-wrapper { transform: scale(1) translateY(-85px); opacity: 1; }
 
         .cake-body {
@@ -65,10 +86,9 @@
             border-radius: 15px; position: relative; overflow: hidden;
             box-shadow: inset 0 -5px 0 #eee;
         }
-
         .frosting { width: 100%; height: 30px; background: var(--frosting); position: absolute; top: 0; z-index: 2; }
 
-        /* The Rolling Face Effect */
+        /* 3D Rolling Face Effect */
         .face-container {
             position: absolute; width: 100%; top: 45px; transform: translateX(-100%);
             transition: transform 0.6s ease-out 0.4s; display: flex; justify-content: center; gap: 25px;
@@ -83,44 +103,27 @@
         .flame { width: 10px; height: 16px; background: #FF8C00; border-radius: 50% 50% 20% 20%; position: absolute; top: -18px; animation: flicker 0.1s infinite alternate; }
         @keyframes flicker { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-        /* --- THE SLIDESHOW (ADJUSTED POSITION) --- */
+        /* --- SLIDESHOW SECTION --- */
         .slideshow-container {
-            width: 300px;
-            height: 350px;
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
+            width: 300px; height: 350px; position: relative;
+            opacity: 0; transform: translateY(30px);
             transition: all 1s ease 0.8s;
-            display: flex;
-            justify-content: center;
-            margin-top: 50px; /* Pushes photos lower below the cake */
+            display: flex; justify-content: center; margin-top: 50px;
         }
-
         .active ~ .slideshow-container { opacity: 1; transform: translateY(0); }
 
         .photo-card {
-            position: absolute;
-            width: 220px;
-            height: 280px;
-            background: white;
-            padding: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: transform 0.6s var(--spring), opacity 0.5s;
-            cursor: pointer;
+            position: absolute; width: 220px; height: 280px;
+            background: white; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.6s var(--spring), opacity 0.5s; cursor: pointer;
             border-bottom: 50px solid white;
         }
-
         .photo-card img { width: 100%; height: 210px; object-fit: cover; border: 1px solid #f0f0f0; }
-
         .photo-note {
-            position: absolute; bottom: -45px; left: 0; width: 100%;
-            text-align: center; font-size: 0.85rem; color: #555;
-            font-family: 'Comic Sans MS', cursive;
-            padding: 0 10px;
-            line-height: 1.2;
+            position: absolute; bottom: -45px; left: 0; width: 100%; text-align: center;
+            font-size: 0.85rem; color: #555; padding: 0 10px;
         }
 
-        /* Initial Stack Rotation */
         .photo-card:nth-child(1) { transform: rotate(-5deg); z-index: 5; }
         .photo-card:nth-child(2) { transform: rotate(3deg); z-index: 4; }
         .photo-card:nth-child(3) { transform: rotate(-2deg); z-index: 3; }
@@ -131,16 +134,20 @@
 
         /* --- HEART ANIMATION --- */
         .heart {
-            position: fixed;
-            color: #FF4D6D;
-            font-size: 24px;
-            pointer-events: none;
-            z-index: 200;
+            position: fixed; color: #FF4D6D; font-size: 24px; pointer-events: none; z-index: 200;
             animation: floatUp 1.5s ease-out forwards;
         }
         @keyframes floatUp {
             0% { transform: translateY(0) scale(1); opacity: 1; }
             100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
+        }
+
+        /* --- CONFETTI --- */
+        .confetti { position: fixed; width: 10px; height: 10px; pointer-events: none; opacity: 0; z-index: 99; }
+        .active ~ .confetti { animation: confettiFall 3s ease-in-out forwards; opacity: 1; }
+        @keyframes confettiFall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(720deg); }
         }
     </style>
 </head>
@@ -169,29 +176,20 @@
     </button>
 
     <div class="slideshow-container">
-        <div class="photo-card" onclick="handleCardClick(this, event)">
-            <img src="IMG-20250904-WA0071.jpg" alt="1">
-            <div class="photo-note">The start of something amazing! ✨</div>
-        </div>
-        <div class="photo-card" onclick="handleCardClick(this, event)">
-            <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400" alt="2">
-            <div class="photo-note">To the best person I know! 🍰</div>
-        </div>
-        <div class="photo-card" onclick="handleCardClick(this, event)">
-            <img src="https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=400" alt="3">
-            <div class="photo-note">Always keep that beautiful smile. 😊</div>
-        </div>
-        <div class="photo-card" onclick="handleCardClick(this, event)">
-            <img src="https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?w=400" alt="4">
-            <div class="photo-note">Cheers to your special day! 🎈</div>
-        </div>
-        <div class="photo-card" onclick="handleCardClick(this, event)">
-            <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=400" alt="5">
-            <div class="photo-note">Happy Birthday! May all your wishes come true. ❤️</div>
-        </div>
+        <div class="photo-card" onclick="handleCardClick(this, event)"><img src="photo1.jpg" alt="1"><div class="photo-note">Memory 1 ✨</div></div>
+        <div class="photo-card" onclick="handleCardClick(this, event)"><img src="photo2.jpg" alt="2"><div class="photo-note">Memory 2 🍰</div></div>
+        <div class="photo-card" onclick="handleCardClick(this, event)"><img src="photo3.jpg" alt="3"><div class="photo-note">Memory 3 😊</div></div>
+        <div class="photo-card" onclick="handleCardClick(this, event)"><img src="photo4.jpg" alt="4"><div class="photo-note">Memory 4 🎈</div></div>
+        <div class="photo-card" onclick="handleCardClick(this, event)"><img src="photo5.jpg" alt="5"><div class="photo-note">Memory 5 ❤️</div></div>
     </div>
 
-    <audio id="birthdaySong" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+    <div class="confetti" style="left:15%; background:#FF4D6D; animation-delay: 0.1s;"></div>
+    <div class="confetti" style="left:35%; background:#00ff00; animation-delay: 0.5s;"></div>
+    <div class="confetti" style="left:55%; background:#0000ff; animation-delay: 0.2s;"></div>
+    <div class="confetti" style="left:75%; background:#ffff00; animation-delay: 0.4s;"></div>
+    <div class="confetti" style="left:95%; background:#ff00ff; animation-delay: 0.3s;"></div>
+
+    <audio id="birthdaySong" loop src="https://cdn.pixabay.com/audio/2022/11/22/audio_feb6391d37.mp3"></audio>
 
     <script>
         const btn = document.getElementById('cakeBtn');
@@ -200,7 +198,7 @@
         btn.addEventListener('click', () => {
             btn.classList.toggle('active');
             if(btn.classList.contains('active')) {
-                song.play().catch(() => console.log("Music play blocked by browser"));
+                song.play();
             } else {
                 song.pause();
                 song.currentTime = 0;
@@ -209,7 +207,7 @@
         });
 
         function handleCardClick(card, event) {
-            // Heart Animation
+            // Heart creation
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
@@ -218,19 +216,14 @@
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 1500);
 
-            // Swipe Logic
+            // Swipe logic
             card.classList.add('swiped');
-
-            // Reset Stack if all swiped
             const total = document.querySelectorAll('.photo-card').length;
             const swiped = document.querySelectorAll('.photo-card.swiped').length;
             if(swiped === total) {
-                setTimeout(() => {
-                    document.querySelectorAll('.photo-card').forEach(p => p.classList.remove('swiped'));
-                }, 1000);
+                setTimeout(() => { document.querySelectorAll('.photo-card').forEach(p => p.classList.remove('swiped')); }, 1000);
             }
         }
     </script>
-
 </body>
-</html>                
+</html>                      
